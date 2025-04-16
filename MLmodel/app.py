@@ -13,7 +13,8 @@ encoder = joblib.load('location_encoder.pkl')
 def predict():
     data = request.json
     location = data["location"]
-    size = data["size"]
+    size = float(data["size"])
+    #print(f"Received data: {data}")
 
     try:
         encoded_location = encoder.transform([location])[0]
