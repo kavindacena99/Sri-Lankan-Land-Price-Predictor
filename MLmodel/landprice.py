@@ -5,9 +5,13 @@ from sklearn.model_selection import train_test_split
 import joblib
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(BASE_DIR, "land_data.csv")
 
 # CSV
-df = pd.read_csv("land_data.csv")
+df = pd.read_csv(csv_path)
 
 # Handle missing values
 df = df.dropna()
@@ -27,9 +31,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = LinearRegression()
 model.fit(X_train, y_train)
 
+land_price_model = os.path.join(BASE_DIR, "land_price_model.pkl")
+location_encoder = os.path.join(BASE_DIR, "location_encoder.pkl")
+
 # Save the model and encoder
-joblib.dump(model, 'land_price_model.pkl')
-joblib.dump(le, 'location_encoder.pkl')
+joblib.dump(model, land_price_model)
+joblib.dump(le, location_encoder)
 
 # Test 
 sample_location = 'Colombo'
